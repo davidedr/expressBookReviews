@@ -102,19 +102,36 @@ public_users.get('/author/:author',function (req, res) {
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
   //return res.status(300).json({message: "Yet to be implemented"});
-  const title = req.params.title;  
-  if (!title)
-    return res.status(404).send(`title not valid!`);
-  let found_books = [];
-  for (k in books) {
-    let b  = books[k];
-    if (b.title === title)
-      found_books.push(b);
-  }
-  if (found_books && found_books.length > 0)
-    return res.send(JSON.stringify(found_books, null, 4));
-  else
-    return res.status(404).send(`No books found w/ title: ${title}!`);
+  // Task 4
+  // const title = req.params.title;  
+  // if (!title)
+  //   return res.status(404).send(`title not valid!`);
+  // let found_books = [];
+  // for (k in books) {
+  //   let b  = books[k];
+  //   if (b.title === title)
+  //     found_books.push(b);
+  // }
+  // if (found_books && found_books.length > 0)
+  //   return res.send(JSON.stringify(found_books, null, 4));
+  // else
+  //   return res.status(404).send(`No books found w/ title: ${title}!`);
+  // Task 13
+  new Promise((resolve, reject) => {
+    const title = req.params.title;  
+    if (!title)
+      res.status(404).send(`title not valid!`);
+    let found_books = [];
+    for (k in books) {
+      let b  = books[k];
+      if (b.title === title)
+        found_books.push(b);
+    }
+    if (found_books && found_books.length > 0)
+      res.send(JSON.stringify(found_books, null, 4));
+    else
+      res.status(404).send(`No books found w/ title: ${title}!`);
+  });
 });
 
 //  Get book review
