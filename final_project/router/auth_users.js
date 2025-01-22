@@ -6,17 +6,30 @@ const regd_users = express.Router();
 let users = [];
 
 const isValid = (username) => { //returns boolean
-//write code to check is the username is valid
+  const user = users.filter(u => u.username === username);
+  return user && user.length > 0;
 }
 
 const authenticatedUser = (username, password) => { //returns boolean
-//write code to check if username and password match the one we have in records.
+  //write code to check if username and password match the one we have in records.
+  const auth_user = users.filter(u => u.username === username && u.password === password);
+  return auth_user && auth_user.length > 1;
 }
 
 //only registered users can login
 regd_users.post("/login", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  //return res.status(300).json({ message: "Yet to be implemented" });
+  const { username, password } = req.body;
+  if(!username || !password)
+    return res.status(403).send(`Missing username or password!`);
+
+  if (!authenticatedUser(username, password))
+    return res.status(404).send(`User not authenticated!`);
+
+  let accessToken = jwt.sign({ data: password }, 'access', { espiresIn: 60*60 });
+  req.session.authorization = { accessToken, username };
+  res.send(`User: ${username} successfully logged in.`);
 });
 
 // Add a book review
