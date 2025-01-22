@@ -33,9 +33,42 @@ regd_users.post("/login", (req, res) => {
 });
 
 // Add a book review
+// PUT http://localhost:5000/customer/auth/review/1?review=aaaaaaa&username=user2 
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  //return res.status(300).json({ message: "Yet to be implemented" });
+  const { isbn } = req.params;
+  if (!isbn)
+    return res.status(404).send(`ISBN not valid!`);
+  const { review } = req.query;
+  if (!review)
+    return res.status(404).send(`review not valid!`);
+  const { username } = req.query;
+  if (!username)
+    return res.status(404).send(`username not valid!`);
+  const book = books[isbn];
+  if (!book)
+    return res.status(404).send(`ISBN ${isbn} not valid!`);
+  if (book.reviews) {
+    let found_review = false;
+    for(uname in book.reviews)
+      if (uname === username) {
+        found_review = true;
+        break;
+      }
+    if (found_review) {
+      book.reviews[username] = review;
+      return res.send(`Review for ISBN: ${isbn} by username: ${username} successfully updated.`);
+    }
+    else {
+      book.reviews[username] = review;
+      return res.send(`Review for ISBN: ${isbn} by username: ${username} successfully created.`);
+    }
+  }
+  else {
+    book.reviews = { username, review };
+    return res.send(`Review for ISBN: ${isbn} by username: ${username} successfully created.`);  
+  }
 });
 
 module.exports.authenticated = regd_users;

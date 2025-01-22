@@ -30,7 +30,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
   //return res.status(300).json({message: "Yet to be implemented"});
   const isbn = req.params.isbn;
   if (!isbn)
-    return res.status(404).send(`ISBN not valid!`);
+    return res.status(404).send(`ISBN ${isbn} not valid!`);
   const found_book = books[isbn];
   if (found_book)
     return res.send(JSON.stringify(found_book, null, 4));
