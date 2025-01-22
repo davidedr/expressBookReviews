@@ -13,7 +13,7 @@ const isValid = (username) => { //returns boolean
 const authenticatedUser = (username, password) => { //returns boolean
   //write code to check if username and password match the one we have in records.
   const auth_user = users.filter(u => u.username === username && u.password === password);
-  return auth_user && auth_user.length > 1;
+  return auth_user && auth_user.length > 0;
 }
 
 //only registered users can login
@@ -27,7 +27,7 @@ regd_users.post("/login", (req, res) => {
   if (!authenticatedUser(username, password))
     return res.status(404).send(`User not authenticated!`);
 
-  let accessToken = jwt.sign({ data: password }, 'access', { espiresIn: 60*60 });
+  let accessToken = jwt.sign({ data: password }, 'access', { expiresIn: 60*60 });
   req.session.authorization = { accessToken, username };
   res.send(`User: ${username} successfully logged in.`);
 });
