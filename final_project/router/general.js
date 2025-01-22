@@ -25,9 +25,13 @@ public_users.get('/',function (req, res) {
   // Task 1
   //return res.send(JSON.stringify(books, null, 4));
   //Task 10
-  axios.get('https://github.com/davidedr/expressBookReviews/tree/main/final_project/router/booksdb.js')
-    .then(res => res.send(JSON.stringify(res.data, null, 4)))
-    .catch(err => res.status(404).send(`Error getting the list of books!`));
+  //axios.get('./books.json')
+  //  .then(res => res.send(JSON.stringify(res.data, null, 4)))
+  //  .catch(err => res.status(404).send(`Error getting the list of books! ${err.message}`));
+  const get_books = new Promise((resolve, reject) => {
+    resolve(res.send(JSON.stringify(books, null, 4)));
+  });
+  get_books;
 });
 
 // Get book details based on ISBN
