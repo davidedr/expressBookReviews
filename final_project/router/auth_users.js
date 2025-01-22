@@ -43,7 +43,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const { review } = req.query;
   if (!review)
     return res.status(404).send(`review not valid!`);
-  const { username } = req.query;
+  //const { username } = req.query;
+  const { username } = req.session.authorization;
   if (!username)
     return res.status(404).send(`username not valid!`);
   const book = books[isbn];
@@ -70,6 +71,37 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.send(`Review for ISBN: ${isbn} by username: ${username} successfully created.`);  
   }
 });
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  //Write your code here
+  //return res.status(300).json({ message: "Yet to be implemented" });
+  const { isbn } = req.params;
+  if (!isbn)
+    return res.status(404).send(`ISBN not valid!`);
+  const { username } = req.session.authorization;
+  if (!username)
+    return res.status(404).send(`username not valid!`);
+  const book = books[isbn];
+  if (!book)
+    return res.status(404).send(`ISBN ${isbn} not valid!`);
+  if (book.reviews) {
+    let found_review = false;
+    for(uname in book.reviews)
+      if (uname === username) {
+        found_review = true;
+        break;
+      }
+    if (found_review) {
+      delete book.reviews[username];
+      return res.send(`Review for ISBN: ${isbn} by username: ${username} successfully deleted.`);
+    }
+    else
+     return res.status(404).send(`Review not found for ISBN: ${isbn} by username: ${username}!`);
+  }
+  else
+    return res.status(404).send(`No review found!`);
+});
+
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
