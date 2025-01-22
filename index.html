@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--Implementazione TOSC5 inizio-->
+    <div id="tosc5container" style="min-height:250px"></div>
+    <script>
+        window.dw = window.dw || function () { (dw.q = dw.q || []).push(arguments) };
+        dw('settings', 'eae429d9-2fb9-494b-8e7c-485277622f1a',
+            {
+                /* imposta la linagua iniziale: it, de, en, es, fr .. */
+                "lang": 'it',
+                /* disattiva lo scorrimento della pagina all'inizio del widget = false */
+                "allowScrollOnApplicationStart": true,
+                /* carica un nuovo foglio di style */
+                /* "styleResources":['https://www.vostrodominio.it/css/nomefogliodistile.css'],*/
+                /* ID dell’elemento HTML nella pagina che deve ospitare TOSC5 */
+                "target": "tosc5container",
+                /* colori della rotella di pre-caricamento */
+                "loadingAnimationColor": {
+                    "main": '#BBF706',
+                    "alt": '#00A7E1'
+                }
+            });
+        dw('onPageChange', 'eae429d9-2fb9-494b-8e7c-485277622f1a', () => { console.log('page changed event') });
+    </script>
+    <script async
+        src="https://resc.deskline.net/DW5/start/BELLUNO/eae429d9-2fb9-494b-8e7c-485277622f1a/index.js"></script>
+    <!--Implementazione TOSC5 fine-->
+
+</body>
+
+</html>
